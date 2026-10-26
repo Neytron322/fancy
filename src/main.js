@@ -1,6 +1,6 @@
 import './polyfill.js';
 import './style.css';
-import { generateMnemonic } from '@scure/bip39';
+import { generateMnemonic, validateMnemonic } from '@scure/bip39';
 import {
   WORDLIST,
   NETWORKS,
@@ -1132,7 +1132,15 @@ function renderMine() {
             )
             .join('')}</div>`
         : `<div class="empty">${t('myEmpty')}</div>`
-    }`;
+    }
+    <div class="card import-card">
+      <h3>${t('importTitle')}</h3>
+      <p class="note">${t('importNote')}</p>
+      <input id="import-words" class="plain" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${esc(t('importPh'))}" />
+      <div class="err" id="import-err"></div>
+      <div class="row-actions"><button class="btn" id="import-go">${t('importBtn')}</button></div>
+    </div>`;
+  $('#import-go').onclick = () => importAnchor($('#import-words').value);
   el.querySelectorAll('[data-open]').forEach((b) => (b.onclick = () => openClaim(b.dataset.open)));
   el.querySelectorAll('[data-copy]').forEach((b) => (b.onclick = () => copy(b.dataset.copy, b)));
   el.querySelectorAll('[data-del]').forEach(
@@ -1145,6 +1153,30 @@ function renderMine() {
         renderMine();
       }),
   );
+}
+
+/** Адрес, подобранный на чужой видеокарте: берём его 12 слов, а слова 13–24 создаст openClaim здесь. */
+async function importAnchor(text) {
+  const words = text.trim().toLowerCase().split(/\s+/);
+  if (words.length !== 12 || !validateMnemonic(words.join(' '), WORDLIST)) {
+    $('#import-err').textContent = t('importBad');
+    return;
+  }
+  const { address } = await wordsToWallet(words, prefs.network);
+  if (!state.found.some((f) => f.address === address)) {
+    state.found.unshift({
+      address,
+      anchor: words,
+      prefix: '',
+      suffix: '',
+      caseInsensitive: true,
+      network: prefs.network,
+      createdAt: Date.now(),
+      status: 'found',
+    });
+    saveFound();
+  }
+  openClaim(address);
 }
 
 // ---------------- находка ----------------

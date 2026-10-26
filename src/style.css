@@ -353,3 +353,4 @@ table.wait td:not(:first-child) { font-weight: 650; }
 .wcard-addr i { font-style: normal; }
 .wcard-addr i.on { color: #e6deff; font-weight: 700; text-shadow: 0 0 0.6em rgba(185, 169, 255, 0.8); }
 .wcard-addr i.mark { border-radius: 3px; outline: 1.5px solid var(--accent); outline-offset: 1px; background: rgba(155, 140, 255, 0.25); color: #fff; }
+.import-card { margin-top: 14px; display: grid; gap: 8px; }

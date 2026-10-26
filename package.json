@@ -1,6 +1,6 @@
 {
   "name": "fancy",
-  "version": "1.1.1",
+  "version": "1.1.1-fork.1",
   "description": "Бесплатный генератор красивых адресов Telegram Wallet на вашей видеокарте (WebGPU). Без сервера, всё в браузере.",
   "scripts": {
     "test": "node test/derive.test.js && node test/sandbox.test.js",
@@ -34,10 +34,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Erechi/fancy.git"
+    "url": "https://github.com/Neytron322/fancy.git"
   },
-  "homepage": "https://github.com/Erechi/fancy",
+  "homepage": "https://github.com/Neytron322/fancy",
   "bugs": {
-    "url": "https://github.com/Erechi/fancy/issues"
+    "url": "https://github.com/Neytron322/fancy/issues"
   }
 }
